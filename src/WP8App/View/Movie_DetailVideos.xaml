@@ -1,0 +1,86 @@
+<phone:PhoneApplicationPage 
+    x:Class="WPAppStudio.View.Movie_DetailVideos"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:ctl="clr-namespace:WPAppStudio.Controls"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:maps="clr-namespace:WPAppStudio.Controls.Maps"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:mytoolkit="clr-namespace:MyToolkit.Controls;assembly=MyToolkit.Extended"
+	xmlns:mytoolkitpaging="clr-namespace:MyToolkit.Paging;assembly=MyToolkit.Extended"
+	xmlns:ads="clr-namespace:Microsoft.Advertising.Mobile.UI;assembly=Microsoft.Advertising.Mobile.UI" 
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource CustomApplicationTextBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+	DataContext="{Binding Path=Movie_DetailVideosViewModel, Source={StaticResource ViewModelLocator}}">
+    <toolkit:TransitionService.NavigationInTransition>
+        <toolkit:NavigationInTransition>
+            <toolkit:NavigationInTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardIn"/>
+            </toolkit:NavigationInTransition.Backward>
+            <toolkit:NavigationInTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardIn"/>
+            </toolkit:NavigationInTransition.Forward>
+        </toolkit:NavigationInTransition>
+    </toolkit:TransitionService.NavigationInTransition>
+    <toolkit:TransitionService.NavigationOutTransition>
+        <toolkit:NavigationOutTransition>
+            <toolkit:NavigationOutTransition.Backward>
+                <toolkit:TurnstileTransition Mode="BackwardOut"/>
+            </toolkit:NavigationOutTransition.Backward>
+            <toolkit:NavigationOutTransition.Forward>
+                <toolkit:TurnstileTransition Mode="ForwardOut"/>
+            </toolkit:NavigationOutTransition.Forward>
+        </toolkit:NavigationOutTransition>
+    </toolkit:TransitionService.NavigationOutTransition>
+    <phone:PhoneApplicationPage.Resources>
+        
+		<mytoolkitpaging:BindableApplicationBar x:Key="PanoramaMovie_DetailVideos0AppBar" IsVisible="True" IsMenuEnabled="True" Mode="Minimized" BackgroundColor="{StaticResource CustomApplicationAppBarBackgroundBrush}" Opacity="0.99" ForegroundColor="White">
+			<mytoolkitpaging:BindableApplicationBarIconButton x:Name="PanoramaMovie_DetailVideos0TextToSpeechBtn" IconUri="/Images/Icons/Dark/TextToSpeech.png" Text="{Binding Path=LocalizedResources.TextToSpeech, Source={StaticResource LocalizedStrings}}" Command="{Binding TextToSpeechMovie_DetailVideosStaticControlCommand}"  />
+			<mytoolkitpaging:BindableApplicationBarIconButton x:Name="PanoramaMovie_DetailVideos0PinToStartBtn" IconUri="/Images/Icons/Dark/PinToStart.png" Text="{Binding Path=LocalizedResources.PinToStart, Source={StaticResource LocalizedStrings}}" Command="{Binding PinToStartMovie_DetailVideosStaticControlCommand}"  />
+			<mytoolkitpaging:BindableApplicationBarIconButton x:Name="PanoramaMovie_DetailVideos0GoToSourceBtn" IconUri="/Images/Icons/Dark/GoToSource.png" Text="{Binding Path=LocalizedResources.GoToSource, Source={StaticResource LocalizedStrings}}" Command="{Binding GoToSourceMovie_DetailVideosStaticControlCommand}"  />
+			<mytoolkitpaging:BindableApplicationBar.MenuItems>
+				<mytoolkitpaging:BindableApplicationBarMenuItem x:Name="PanoramaMovie_DetailVideos0ShareBtn" Text="{Binding Path=LocalizedResources.Share, Source={StaticResource LocalizedStrings}}" Command="{Binding ShareMovie_DetailVideosStaticControlCommand}"/>
+			</mytoolkitpaging:BindableApplicationBar.MenuItems>		
+		</mytoolkitpaging:BindableApplicationBar>	
+    </phone:PhoneApplicationPage.Resources>
+    <Grid x:Name="LayoutRoot">
+		<Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+			<RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Visibility="{Binding IsInternetAvailable}" Background="{StaticResource PhoneAccentBrush}" Height="30">
+            <TextBlock Text="{Binding Path=LocalizedResources.NoConnection, Source={StaticResource LocalizedStrings}}" Margin="10, 0"/>
+        </Grid>
+        <phone:Panorama x:Name="PanoramaMovie_DetailVideos" Grid.Row="2" Foreground="{StaticResource CustomApplicationTextBrush}" Background="{StaticResource CustomApplicationBackgroundImage}" SelectionChanged="panoramaMovie_DetailVideos_SelectionChanged">
+		    <phone:Panorama.Title>
+				<StackPanel Orientation="Horizontal" Margin="0,15,0,0">
+					<Image Height="85" Width="85" Source="http://appstudiodata.blob.core.windows.net/apps/232529/1ef23958-8a3a-45be-90b3-be5a902a17e6/res/Logo-3484c8ad-4b3a-4078-af0d-5fb2d81a96d3.png" Stretch="Uniform" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5,0,10,5" RenderTransformOrigin="0.5,0.5" />
+					<TextBlock FontSize="92" Text="Twilight" FontFamily="Segoe WP Light" Foreground="{StaticResource CustomTitleApplicationTextBrush}" VerticalAlignment="Stretch"/>
+                </StackPanel>
+            </phone:Panorama.Title>
+			<phone:PanoramaItem x:Name="PanoramaMovie_DetailVideos0" Margin="0,0,0,25">
+				<phone:PanoramaItem.Header>
+					<StackPanel Orientation="Horizontal" Margin="0,7,0,0">
+						<TextBlock Text="{Binding CurrentYouTubeVideo.Title, Converter={StaticResource SanitizeString}}" Foreground="{StaticResource CustomApplicationTextBrush}"/>
+					</StackPanel>
+				</phone:PanoramaItem.Header>
+				<ctl:FlipControl NextElementCommand="{Binding NextpanoramaMovie_DetailVideos0}" PreviousElementCommand="{Binding PreviouspanoramaMovie_DetailVideos0}" ShowPreviousButton="{Binding HasPreviouspanoramaMovie_DetailVideos0}" ShowNextButton="{Binding HasNextpanoramaMovie_DetailVideos0}">
+					<ctl:FlipControl.InnerContent>
+				<Grid Margin="10,5,5,5">	
+					<ScrollViewer>
+							<ctl:YouTubePlayer Margin="0,10" MaxHeight="250" VerticalAlignment="Top" VideoId="{Binding CurrentYouTubeVideo.VideoId, TargetNullValue={StaticResource DefaultNoImageValue}}"/>
+					</ScrollViewer>
+                </Grid>
+					</ctl:FlipControl.InnerContent>
+				</ctl:FlipControl>
+            </phone:PanoramaItem>
+        </phone:Panorama>
+    </Grid>
+	
+</phone:PhoneApplicationPage>
